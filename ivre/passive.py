@@ -36,7 +36,7 @@ from future.utils import viewitems
 from past.builtins import long
 
 
-from ivre import utils
+from ivre import utils, config
 
 
 SCHEMA_VERSION = 1
@@ -251,6 +251,16 @@ def _prepare_rec(spec, ignorenets, neverignore):
                 newvalue = pattern.sub(replace, newvalue)
         if newvalue != value:
             spec['value'] = utils.nmap_encode_data(newvalue)
+    # Check DNS Blacklist answer
+    elif spec['recontype'] == 'DNS_ANSWER':
+        if any(spec['value'].endswith(dnsbl)
+               for dnsbl in config.DNS_BLACKLIST_DOMAINS):
+                dnsbl_val = spec['value']
+                spec['recontype'] = 'DNS_BLACKLIST'
+                spec['value'] = spec['addr']
+                spec.update({'source': "%s-%s" %
+                            (dnsbl_val.split('.', 4)[4], spec['source'])})
+                spec['addr'] = '.'.join((dnsbl_val.split('.'))[:4][::-1])
     return spec
 
 

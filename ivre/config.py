@@ -84,6 +84,11 @@ NMAP_SCAN_TEMPLATES = {
     }
 }
 
+DNS_BLACKLIST_DOMAINS = set([
+    'zen.spamhaus.org',
+    'blacklist2',
+])
+
 # Example: to define an "aggressive" template that "inherits" from
 # the default template and runs more scripts with a more important
 # host timeout value, add the following lines to your ivre.conf,
