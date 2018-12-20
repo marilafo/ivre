@@ -345,6 +345,25 @@ def _getinfos_dns(spec):
         res['infos'] = infos
     return res
 
+def _getinfos_dns_blacklist(spec):
+    """Extract domain names in an handy-to-index-and-query form."""
+    infos = {}
+    fields = {'domain': 'value', 'domaintarget': 'targetval'}
+    for field in fields:
+        try:
+            if 'source' not in spec:
+                continue
+            infos['domain'] = []
+            for domain in utils.get_domains(spec['source'].split('-')[:-3]):
+                infos[field].append(domain)
+            if not infos['domain']:
+                del infos['domain']
+        except Exception:
+            pass
+    res = {}
+    if infos:
+        res['infos'] = infos
+    return res
 
 def _getinfos_sslsrv(spec):
     """Calls a source specific function for SSL_SERVER recontype
@@ -467,6 +486,7 @@ _GETINFOS_FUNCTIONS = {
     'HTTP_SERVER_HEADER':
     {'SERVER': _getinfos_http_server},
     'DNS_ANSWER': _getinfos_dns,
+    'DNS_BLACKLIST': _getinfos_dns_blacklist,
     'SSL_SERVER': _getinfos_sslsrv,
     'SSL_CLIENT': {'ja3': _getinfos_ja3},
     'TCP_SERVER_BANNER': _getinfos_tcp_srv_banner,
