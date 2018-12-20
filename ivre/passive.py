@@ -345,6 +345,7 @@ def _getinfos_dns(spec):
         res['infos'] = infos
     return res
 
+
 def _getinfos_dns_blacklist(spec):
     """Extract domain names in an handy-to-index-and-query form."""
     infos = {}
@@ -361,6 +362,7 @@ def _getinfos_dns_blacklist(spec):
     if infos:
         res['infos'] = infos
     return res
+
 
 def _getinfos_sslsrv(spec):
     """Calls a source specific function for SSL_SERVER recontype
