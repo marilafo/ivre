@@ -349,13 +349,12 @@ def _getinfos_dns_blacklist(spec):
     """Extract domain names in an handy-to-index-and-query form."""
     infos = {}
     try:
-        if 'source' not in spec:
-            continue
-        infos['domain'] = []
-        for domain in utils.get_domains(spec['source'].split('-')[:-3]):
-            infos['domain'].append(domain)
-        if not infos['domain']:
-            del infos['domain']
+        if 'source' in spec:
+            infos['domain'] = []
+            for domain in utils.get_domains(spec['source'].split('-')[:-3]):
+                infos['domain'].append(domain)
+            if not infos['domain']:
+                del infos['domain']
     except Exception:
         pass
     res = {}
