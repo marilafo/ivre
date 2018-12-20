@@ -352,8 +352,8 @@ def _getinfos_dns_blacklist(spec):
         if 'source' in spec:
             infos['domain'] = []
             print(spec['source'])
-            print(spec['source'].split('-')[:-3])
-            for domain in utils.get_domains(spec['source'].split('-')[:-3]):
+            print(spec['source'].split('-')[-4])
+            for domain in utils.get_domains(spec['source'].split('-')[-4]):
                 infos['domain'].append(domain)
             if not infos['domain']:
                 del infos['domain']
